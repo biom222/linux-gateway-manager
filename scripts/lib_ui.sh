@@ -9,16 +9,20 @@ ui_header() {
     echo
 }
 
-ui_info() {
-    echo "[INFO] $1"
-}
-
 ui_error() {
     echo "[ERROR] $1"
+}
+
+ui_success() {
+    echo "[OK] $1"
+}
+
+ui_info() {
+    echo "[INFO] $1"
 }
 
 ui_pause() {
     echo
     printf "Нажми Enter для продолжения..."
-    read _dummy
+    read -r _
 }
