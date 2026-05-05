@@ -1,13 +1,13 @@
-# Web UI
+# Web
 
-This directory is reserved for the future browser-based monitoring and control interface.
+Каталог предназначен для будущего web-интерфейса приложения.
 
-Planned responsibilities:
+Планируемый web-интерфейс должен обеспечивать:
 
-- show gateway status;
-- show active profile;
-- show latest service health checks;
-- show recent logs;
-- provide basic operator actions.
+- отображение текущего состояния системы;
+- просмотр активного профиля;
+- отображение результатов последних проверок;
+- просмотр журналов;
+- выполнение базовых операций управления.
 
-At the current stage, this directory exists only to document the intended architecture.
+На текущем этапе каталог служит архитектурной заготовкой для пользовательского интерфейса.
