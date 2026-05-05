@@ -1,132 +1,120 @@
-# Architecture
+# Архитектура
 
-## High-level idea
+## Общая идея
 
-`zapret-gateway-manager` is designed as a management and monitoring layer for a dedicated Linux gateway that runs an anti-DPI backend from the `zapret` ecosystem.
+`linux-gateway-manager` проектируется как приложение управления и мониторинга для выделенного Linux-шлюза в локальной сети.
 
-The project is intentionally separated into logical layers:
+Система строится как набор логических слоёв:
 
-1. **System layer**  
-   Linux host, networking, routing, forwarding, firewall, service runtime.
+1. **Системный слой**  
+   Linux-хост, сетевые интерфейсы, маршрутизация, forwarding, firewall, системные службы.
 
-2. **Backend layer**  
-   Anti-DPI backend such as `zapret`, and later potentially `zapret2`.
+2. **Слой обработки конфигурации**  
+   Профили, runtime-параметры, операции применения и сброса состояния.
 
-3. **Manager layer**  
-   Shell-based orchestration for profiles, state, checks, logging, and backend interaction.
+3. **Слой управления**  
+   Shell-логика, работа с профилями, журналами, проверками, состоянием и backend-runtime.
 
-4. **Interface layer**  
-   Future local API and web UI for visibility and control.
+4. **Интерфейсный слой**  
+   Локальный API и будущий web-интерфейс для управления и наблюдаемости.
 
-## Design principles
+## Ключевые принципы
 
-### 1. Backend-aware, not backend-hardcoded
+### 1. Ядро должно быть отделено от интерфейса
 
-The project should not permanently bind itself to a single fixed command layout. The first supported backend can be `zapret`, but the control layer should remain conceptually separable.
+Веб-интерфейс является пользовательским уровнем системы, но не должен содержать основную бизнес-логику. Основные операции должны оставаться доступными через внутреннее ядро приложения.
 
-### 2. State must be explicit
+### 2. Состояние системы должно быть явным
 
-The system should always know:
+Приложение должно хранить и уметь отображать:
 
-- what profile is selected;
-- what profile was last known good;
-- when the last checks ran;
-- what the latest result was.
+- активный профиль;
+- последнее действие;
+- результаты последней проверки;
+- текущее runtime-состояние backend-слоя.
 
-### 3. Checks must drive decisions
+### 3. Диагностика должна быть встроенной частью системы
 
-Profile changes should not rely only on manual intuition. Service checks should gradually become the basis for scoring, rollback, and future autotuning.
+Проверки доступности и диагностика сетевых сервисов являются не дополнительной функцией, а одной из базовых возможностей gateway-приложения.
 
-### 4. Web UI is not the core
+### 4. Архитектура должна быть расширяемой
 
-The web interface is a future control surface, not the business logic itself. Operational logic must remain usable without a web frontend.
+Проект должен позволять без полной переработки добавлять:
 
-## Repository components
+- новые профили;
+- новые типы проверок;
+- локальный API;
+- web-интерфейс;
+- дополнительные служебные модули.
+
+## Структура репозитория
 
 ### `scripts/`
 
-Shell entrypoints, library files, and future backend adapters.
+Содержит shell-логику приложения.
 
-Expected responsibilities:
-
-- load profiles;
-- manage state;
-- run checks;
-- write logs;
-- call backend-specific handlers.
+Основные задачи:
+- загрузка профилей;
+- управление состоянием;
+- журналирование;
+- выполнение проверок;
+- управление backend-runtime.
 
 ### `profiles/`
 
-Profile definitions and future backend-related tuning presets.
+Содержит профили конфигурации.
 
-Expected responsibilities:
-
-- name and describe profile;
-- define profile-specific parameters;
-- later: support backend-specific mappings.
+Основные задачи:
+- хранение параметров профилей;
+- выбор активного профиля;
+- подготовка данных для слоя управления.
 
 ### `lists/`
 
-Target and exclusion lists.
+Содержит списки целей и служебные данные.
 
-Expected responsibilities:
-
-- store health-check targets;
-- store service-related test lists;
-- store exclusion sets where needed.
+Основные задачи:
+- хранение целей для стандартных проверок;
+- хранение вспомогательных списков, используемых модулем диагностики.
 
 ### `state/`
 
-Operational runtime data.
+Содержит runtime-состояние и журналы.
 
-Expected responsibilities:
-
-- active profile;
-- last known good profile;
-- last check result;
-- temporary cache and logs.
+Основные задачи:
+- сохранение активного профиля;
+- сохранение последнего действия;
+- сохранение результатов проверок;
+- хранение runtime-файлов.
 
 ### `api/`
 
-Future local API layer.
-
-Expected responsibilities:
-
-- expose status;
-- expose profile information;
-- trigger checks;
-- trigger control actions.
+Предназначен для будущего локального API.
 
 ### `web/`
 
-Future monitoring and control UI.
+Предназначен для будущего web-интерфейса мониторинга и управления.
 
-Expected responsibilities:
+## Целевой рабочий поток
 
-- display state;
-- display recent checks;
-- provide basic operator actions.
+Предполагаемая последовательность работы системы:
 
-## Planned control flow
+1. запуск приложения;
+2. загрузка доступных профилей;
+3. выбор активного профиля;
+4. сохранение состояния;
+5. применение профиля к runtime-слою;
+6. запуск диагностики и проверок;
+7. запись результатов в журнал и state;
+8. отображение состояния через интерфейс управления.
 
-A simplified future flow:
+## Ближайший фокус разработки
 
-1. load available profiles;
-2. select or receive target profile;
-3. apply backend-specific configuration;
-4. run target service checks;
-5. evaluate result;
-6. persist working state or rollback;
-7. expose state to future API/UI.
+На ближайшем этапе акцент делается на:
 
-## Near-term implementation focus
-
-The current implementation focus is intentionally narrow:
-
-- shell core;
-- profile loading;
-- state persistence;
-- service checks;
-- basic logging.
-
-Only after that foundation is stable should local API and web monitoring be added.
+- shell-ядро;
+- профили;
+- состояние;
+- журналирование;
+- стандартные проверки;
+- подготовку к web-слою.
