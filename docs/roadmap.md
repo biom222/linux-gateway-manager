@@ -1,185 +1,146 @@
-# Roadmap
+# Дорожная карта
 
-## Project direction
+## Общее направление
 
-`zapret-gateway-manager` is being developed as a dedicated Linux gateway management layer for whole-network anti-DPI routing.
+`linux-gateway-manager` разрабатывается как приложение для управления, диагностики и мониторинга Linux-шлюза локальной сети.
 
-The roadmap is intentionally split into operational stages:
+Этапы развития проекта:
 
-1. establish a stable shell-based gateway core;
-2. add health checks and state handling;
-3. automate profile selection and rollback;
-4. separate backend logic from control logic;
-5. expose local API primitives;
-6. build a lightweight web control surface.
+1. формирование стабильного shell-ядра;
+2. развитие модели профилей и состояния;
+3. развитие диагностики и проверок;
+4. выделение backend-runtime слоя;
+5. подготовка локального API;
+6. создание web-интерфейса;
+7. подготовка установочного сценария.
 
-## v0.1.0 — foundation
+## v0.1.0 — фундамент проекта
 
-Goal: establish the repository and the first operational shell scaffold.
+Цель этапа:
+создать рабочую основу репозитория и первичный каркас приложения.
 
-Planned scope:
+Состав этапа:
 
-- repository structure;
+- структура репозитория;
 - README / NOTICE / LICENSE;
-- initial shell entrypoint;
-- baseline profile files;
-- architecture and topology documents.
+- начальный shell-entrypoint;
+- базовые профили;
+- архитектурные документы.
 
-Expected result:
+Результат:
+подготовлен базовый каркас проекта и зафиксировано направление разработки.
 
-- a clear repository layout;
-- a documented project direction;
-- a stable base for further implementation.
+## v0.2.0 — базовый управляющий контур
 
-## v0.2.0 — manual control flow
+Цель этапа:
+реализовать начальную shell-логику управления Linux-шлюзом.
 
-Goal: implement the first real control logic for Linux gateway mode.
+Состав этапа:
 
-Planned scope:
+- просмотр профилей;
+- выбор активного профиля;
+- сохранение выбранного состояния;
+- хранение базовых runtime-файлов;
+- первичное журналирование.
 
-- manual profile listing;
-- manual profile loading;
-- selected-profile persistence;
-- state directory handling;
-- basic operational logging.
+Результат:
+появляется рабочее ядро управления.
 
-Expected result:
+## v0.3.0 — диагностика и проверки
 
-- operator can choose a profile;
-- current selection is stored;
-- shell core becomes a real management entrypoint instead of a placeholder.
+Цель этапа:
+добавить стандартные проверки доступности сервисов.
 
-## v0.3.0 — health checks
+Состав этапа:
 
-Goal: add verification logic for target services.
+- список целей проверок;
+- запуск стандартных проверок;
+- запись результатов;
+- сохранение итогового статуса;
+- отображение результатов через состояние системы.
 
-Planned scope:
+Результат:
+система получает встроенный диагностический контур.
 
-- basic checks for selected services;
-- first target set:
-  - YouTube
-  - Discord
-  - Telegram
-  - Roblox
-- check result logging;
-- simple success/failure reporting.
+## v0.4.0 — runtime-слой backend
 
-Expected result:
+Цель этапа:
+оформить отдельный runtime-слой backend-управления.
 
-- the system can compare operational results between profiles;
-- future automation gets measurable input.
+Состав этапа:
 
-## v0.4.0 — profile evaluation
+- apply / status / reset операции;
+- runtime-state файлы;
+- базовая интеграция с профилями;
+- привязка действий к журналам и состоянию.
 
-Goal: compare candidate profiles and score their results.
+Результат:
+ядро управления становится более структурированным.
 
-Planned scope:
+## v0.5.0 — локальный API
 
-- repeated checks after profile selection;
-- profile scoring model;
-- storing last known good profile;
-- minimal rollback logic.
+Цель этапа:
+подготовить интерфейс обмена данными для будущей web-части.
 
-Expected result:
+Состав этапа:
 
-- profile quality is no longer subjective;
-- system starts to build a usable decision layer.
+- статус системы;
+- активный профиль;
+- результаты последних проверок;
+- базовые управляющие вызовы;
+- схема локального API.
 
-## v0.5.0 — automated selection
+Результат:
+создаётся основа для пользовательского web-интерфейса.
 
-Goal: introduce the first automated profile workflow.
+## v0.6.0 — web-интерфейс
 
-Planned scope:
+Цель этапа:
+реализовать browser-based интерфейс управления и мониторинга.
 
-- iterate through candidate profiles;
-- run service checks for each one;
-- select best result;
-- preserve best-profile state;
-- rollback on failure.
+Состав этапа:
 
-Expected result:
+- главная панель состояния;
+- экран профилей;
+- экран проверок;
+- просмотр журналов;
+- базовые действия управления.
 
-- the project becomes capable of basic semi-automatic tuning.
+Результат:
+проект получает полноценный пользовательский интерфейс.
 
-## v0.6.0 — backend separation
+## v0.7.0 — установка и развёртывание
 
-Goal: formalize backend abstraction.
+Цель этапа:
+подготовить удобный способ установки и запуска на Linux-шлюзе.
 
-Planned scope:
+Состав этапа:
 
-- isolate backend-specific logic from generic control flow;
-- prepare `zapret` backend module;
-- keep architecture open for future `zapret2` integration;
-- document backend responsibilities and boundaries.
+- установочный сценарий;
+- проверка окружения;
+- инициализация каталогов;
+- подготовка runtime-среды;
+- документация по запуску.
 
-Expected result:
+Результат:
+проект можно разворачивать как самостоятельное gateway-приложение.
 
-- clearer code organization;
-- lower coupling between control logic and backend implementation.
+## v1.0.0 — первая завершённая версия
 
-## v0.7.0 — installation and bootstrap
+Цель этапа:
+получить целостное приложение управления Linux-шлюзом.
 
-Goal: improve first-run experience on a dedicated Linux gateway.
+Состав этапа:
 
-Planned scope:
+- shell-ядро;
+- профили;
+- состояние;
+- журналирование;
+- проверки;
+- runtime-слой;
+- локальный API;
+- web-интерфейс;
+- документация и инструкция запуска.
 
-- installation helper script;
-- first-run environment validation;
-- directory bootstrap;
-- dependency checks;
-- improved operational documentation.
-
-Expected result:
-
-- simpler deployment on a fresh Linux gateway;
-- easier reproducibility.
-
-## v0.8.0 — local API foundation
-
-Goal: expose internal state and control operations through a local interface.
-
-Planned scope:
-
-- status endpoint;
-- profile listing endpoint;
-- active-profile endpoint;
-- health-check trigger endpoint;
-- future-safe API layout.
-
-Expected result:
-
-- web UI and automation tooling get a stable communication layer.
-
-## v0.9.0 — web monitoring
-
-Goal: provide a lightweight browser-based monitoring surface.
-
-Planned scope:
-
-- gateway status page;
-- active profile display;
-- last check results;
-- recent log view;
-- basic control actions.
-
-Expected result:
-
-- easier observability and management without SSH-only workflows.
-
-## v1.0.0 — usable dedicated gateway manager
-
-Goal: reach a coherent first stable release for dedicated Linux gateway usage.
-
-Planned scope:
-
-- stable shell control flow;
-- backend integration;
-- health checks;
-- state persistence;
-- rollback logic;
-- installation documentation;
-- initial web monitoring layer.
-
-Expected result:
-
-- a functional dedicated Linux gateway manager for home and lab use.
+Результат:
+готовая первая версия приложения для управления, диагностики и мониторинга Linux-шлюза.
