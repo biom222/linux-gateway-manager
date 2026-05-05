@@ -1,175 +1,100 @@
-# zapret-gateway-manager
+# linux-gateway-manager
 
-Lightweight Linux gateway manager for whole-network anti-DPI routing using zapret-family backends.
+Веб-приложение для управления, диагностики и мониторинга Linux-шлюза в локальной сети.
 
-## Overview
+## Обзор проекта
 
-`zapret-gateway-manager` is a management layer for a dedicated Linux gateway placed between the Internet uplink and a local network.
+`linux-gateway-manager` представляет собой программное приложение для выделенного Linux-шлюза, расположенного между интернет-каналом и локальной сетью.
 
-The project is designed to work on top of an anti-DPI backend from the `zapret` ecosystem and provide the operational layer around it:
+Назначение системы — предоставить единый уровень управления и наблюдаемости для сетевого gateway-узла, включая:
 
-- profile storage and switching;
-- service health checks;
-- state persistence;
-- logging;
-- gradual automation of configuration;
-- future monitoring and control through a web interface.
+- управление профилями конфигурации;
+- диагностику доступности сетевых сервисов;
+- хранение состояния системы;
+- журналирование действий и результатов;
+- запуск служебных проверок;
+- подготовку к дальнейшему расширению через web-интерфейс и локальный API.
 
-The project does **not** replace `zapret` itself.  
-Instead, it focuses on deployment, management, observability, and safer day-to-day operation of a dedicated anti-DPI gateway.
+Проект ориентирован не на замену сетевого backend-модуля, а на организацию удобного прикладного уровня управления gateway-узлом.
 
-## Project goals
+## Назначение
 
-The long-term goal is to build a small Linux gateway appliance that can:
+Приложение предназначено для упрощения администрирования выделенного Linux-шлюза за счёт централизованной работы с профилями, проверками, журналированием и состоянием системы.
 
-- run as a separate network node between WAN and LAN;
-- use `zapret` as the first supported backend;
-- support future backend abstraction for `zapret2`;
-- store and switch traffic processing profiles;
-- run target service checks;
-- preserve and restore the last known working state;
-- expose local monitoring and control primitives;
-- later provide a lightweight web panel for management and visibility.
+## Основные возможности
 
-## Scope
+На текущем этапе проект предполагает следующие функции:
 
-This repository currently focuses on:
+- просмотр доступных профилей конфигурации;
+- выбор активного профиля;
+- сохранение текущего состояния;
+- запуск стандартных проверок доступности сервисов;
+- журналирование действий и результатов;
+- управление runtime-состоянием backend-слоя;
+- подготовка к последующему web-управлению.
 
-- Linux gateway mode;
-- shell-based control logic;
-- profile management;
-- service checking foundation;
-- project structure and documentation.
+## Предполагаемый сценарий использования
 
-This repository does **not** currently aim to provide:
+Типовая схема применения:
 
-- a consumer one-click solution for arbitrary stock routers;
-- a universal anti-DPI backend of its own;
-- a replacement for upstream `zapret` or `zapret2`.
+`Интернет -> Linux-шлюз -> роутер / точка доступа -> клиентские устройства`
 
-## Intended use case
+В этой схеме Linux-машина выполняет роль выделенного gateway-узла, через который централизованно осуществляется управление сетевыми профилями, проверками и состоянием системы.
 
-The intended topology is:
+## Для чего создаётся проект
 
-`Internet -> Linux gateway with zapret-gateway-manager -> router/access point -> client devices`
+Проект разрабатывается как:
 
-In this setup, the Linux machine acts as a dedicated network appliance responsible for traffic handling and backend orchestration.
+1. прикладной инструмент для управления Linux-шлюзом в локальной сети;
+2. учебный проект по Linux, сетям, shell-логике и web-ориентированной архитектуре;
+3. основа для дальнейшего расширения в сторону полноценной системы мониторинга и администрирования gateway-узла.
 
-## Why this project exists
+## Текущий статус
 
-This project serves three practical purposes:
+Проект находится на стадии раннего рабочего прототипа.
 
-1. **Home infrastructure utility**  
-   A dedicated gateway can centralize traffic handling for the entire network instead of configuring individual client devices.
+На данный момент подготовлены:
 
-2. **Learning and experimentation**  
-   The repository is also a hands-on engineering project focused on Linux, networking, shell scripting, service orchestration, and system design.
+- структура репозитория;
+- базовая документация;
+- профильная модель конфигурации;
+- shell-ядро управления;
+- модуль хранения состояния;
+- стандартные проверки доступности;
+- базовый runtime-слой backend-управления;
+- архитектурная основа для будущего web-интерфейса.
 
-3. **Portfolio value**  
-   The project is intentionally structured as a public technical repository with architecture notes, roadmap, operational logic, and future monitoring plans.
+## Архитектура репозитория
 
-## Current status
+Текущая структура:
 
-The project is currently in the **early foundation stage**.
+- `scripts/` — shell-логика, управление состоянием, проверки, backend-слой
+- `profiles/` — профили конфигурации
+- `lists/` — списки целей и вспомогательные данные для проверок
+- `state/` — runtime-состояние, кэш и журналы
+- `docs/` — документация по архитектуре, топологии и roadmap
+- `api/` — будущий локальный API
+- `web/` — будущий web-интерфейс
 
-Implemented so far:
-
-- repository structure;
-- baseline project documentation;
-- initial profile files;
-- shell entrypoint scaffold;
-- roadmap and architectural direction.
-
-Planned next:
-
-- manual profile loading and selection;
-- state storage;
-- basic logging;
-- service health checks;
-- profile application workflow;
-- future backend abstraction and web monitoring.
-
-## Architecture
-
-Current repository layout:
-
-- `scripts/` — shell control logic and backend orchestration
-- `profiles/` — profile definitions and future backend-specific parameters
-- `lists/` — test targets and exclusion lists
-- `state/` — runtime state, cache, and operational data
-- `docs/` — architecture, topology, and roadmap documentation
-- `api/` — future local API layer
-- `web/` — future web UI layer
-
-See also:
+Дополнительные документы:
 
 - `docs/architecture.md`
 - `docs/network-topology.md`
 - `docs/roadmap.md`
 
-## Backend direction
+## Зависимости
 
-The first supported backend is expected to be the current `zapret` project.
+Предполагаемая среда выполнения:
 
-However, repository architecture is intentionally being shaped in a way that can later support backend abstraction and future work with `zapret2`, where appropriate.
+- Linux-хост, выполняющий роль gateway-узла;
+- shell-окружение;
+- средства диагностики сетевой доступности;
+- в дальнейшем — локальный API и browser-based web-интерфейс.
 
-This means the project is best understood as a **gateway management layer for zapret-family backends**, not as a wrapper around a single hardcoded command line.
+## Быстрый старт
 
-## Dependencies
-
-Planned runtime environment:
-
-- Linux gateway host;
-- installed anti-DPI backend from the `zapret` ecosystem;
-- shell environment for orchestration scripts;
-- later: lightweight local API and optional web UI.
-
-At the current scaffold stage, the repository mostly contains project structure and early shell logic.
-
-## Quick start
-
-At the current stage, only the repository scaffold and early shell entrypoint are available.
+На текущем этапе доступен ранний shell-entrypoint:
 
 ```bash
 chmod +x scripts/zgm.sh
 ./scripts/zgm.sh
-```
-
-## Development priorities
-
-Near-term priorities:
-
-- build a working shell core for Linux gateway mode;
-- implement profile loading and state persistence;
-- add service health checks;
-- prepare clean separation between control logic and backend-specific logic;
-- lay the groundwork for monitoring and future web management.
-
-## Roadmap
-
-See `docs/roadmap.md`.
-
-## Credits
-
-This project is inspired by and intended to operate on top of upstream work from the `zapret` ecosystem.
-
-Primary upstream reference:
-
-- `bol-van/zapret`
-- `https://github.com/bol-van/zapret`
-
-Future compatibility direction may also consider:
-
-- `bol-van/zapret2`
-- `https://github.com/bol-van/zapret2`
-
-## License
-
-The original code in this repository is distributed under the MIT License.
-
-See:
-
-- `LICENSE`
-- `NOTICE.md`
-
-When upstream code or substantial adapted fragments are incorporated, corresponding notices and license requirements must be preserved.
