@@ -1,50 +1,52 @@
-# Network topology
+# Сетевая топология
 
-## Intended topology
+## Целевая схема развертывания
 
-The intended deployment model is a dedicated Linux gateway placed between the Internet uplink and the local network.
+Приложение предназначено для выделенной Linux-машины, расположенной между интернет-каналом и локальной сетью.
 
-Reference layout:
+Базовая схема:
 
-`Internet -> Linux gateway -> router / access point -> client devices`
+`Интернет -> Linux-шлюз -> роутер / точка доступа -> клиентские устройства`
 
-Alternative layout:
+Альтернативный вариант:
 
-`Internet uplink -> Linux gateway -> switch / AP -> clients`
+`Интернет -> Linux-шлюз -> коммутатор / точка доступа -> клиентские устройства`
 
-In both cases, the Linux machine is expected to be the network node responsible for traffic handling and backend orchestration.
+## Роль Linux-шлюза
 
-## Why a dedicated gateway
+В данной топологии Linux-хост выступает как единый сетевой узел, через который централизованно осуществляется:
 
-A dedicated gateway provides a central point for:
+- работа с профилями конфигурации;
+- контроль состояния системы;
+- запуск проверок;
+- журналирование;
+- дальнейший мониторинг через web-интерфейс.
 
-- traffic processing;
-- backend control;
-- profile switching;
-- service verification;
-- state persistence;
-- future monitoring.
+## Практический смысл такой схемы
 
-This avoids repeated client-by-client setup and allows the whole network to be managed from a single operational point.
+Выделенный gateway-узел позволяет:
 
-## Practical implications
+- централизовать управление сетевой конфигурацией;
+- не выполнять одинаковую настройку на каждом клиентском устройстве;
+- иметь единую точку диагностики и наблюдаемости;
+- расширять систему без переработки клиентской части сети.
 
-A gateway deployment typically requires:
+## Практические требования
 
-- a Linux machine running continuously;
-- network interfaces suitable for gateway operation;
-- proper routing / forwarding configuration;
-- backend installation and management;
-- persistent local state.
+Для эксплуатации в таком режиме потребуется:
 
-The exact network configuration is outside the scope of the current scaffold stage, but this topology defines the intended operating model for the project.
+- Linux-машина, работающая постоянно;
+- сетевые интерфейсы, пригодные для gateway-сценария;
+- корректная маршрутизация и forwarding;
+- средства диагностики и контроля состояния;
+- постоянное локальное хранилище состояния и журналов.
 
-## Non-goals
+## Ограничения текущего этапа
 
-At this stage, the project does not aim to provide:
+На текущем этапе проект не ставит целью:
 
-- universal support for arbitrary stock routers;
-- one-click firmware replacement for unsupported devices;
-- backend-independent traffic processing without a dedicated gateway role.
+- универсальную поддержку всех бытовых роутеров;
+- замену прошивки произвольных устройств;
+- развёртывание без выделенного gateway-хоста.
 
-The project is intentionally focused on the dedicated Linux gateway scenario.
+Проект сфокусирован именно на модели выделенного Linux-шлюза.
