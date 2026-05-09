@@ -1,0 +1,22 @@
+CloudflareDNS1111 | PING:49.549 ms
+CloudflareDNS1001 | PING:40.049 ms
+DiscordMain | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:26.505 ms
+GoogleDNS8888 | PING:24.502 ms
+DiscordGateway | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:25.610 ms
+GoogleDNS8844 | PING:22.277 ms
+DiscordCDN | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:26.723 ms
+Quad9DNS9999 | PING:26.140 ms
+DiscordUpdates | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:26.061 ms
+YouTubeWeb | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:47.819 ms
+YouTubeShort | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:47.860 ms
+YouTubeImage | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:46.612 ms
+YouTubeVideoRedirect | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:47.783 ms
+GoogleMain | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:25.122 ms
+GoogleGstatic | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:58.583 ms
+CloudflareWeb | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:53.198 ms
+CloudflareCDN | HTTP:OK | TLS1.2:OK | TLS1.3:OK | PING:42.191 ms
+CloudflareDNS1111 | PING:51.546 ms
+CloudflareDNS1001 | PING:30.881 ms
+GoogleDNS8888 | PING:24.936 ms
+GoogleDNS8844 | PING:22.094 ms
+Quad9DNS9999 | PING:26.211 ms

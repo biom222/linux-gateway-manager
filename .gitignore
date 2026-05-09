@@ -2,3 +2,4 @@ state/*.log
 state/*.state
 state/*.tmp
 *.tmp
+.env

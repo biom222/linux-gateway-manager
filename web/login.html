@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вход — linux-gateway-manager</title>
+  <link rel="stylesheet" href="/login.css" />
+</head>
+<body>
+  <div class="login-page">
+    <div class="login-card">
+      <div class="login-logo">LGM</div>
+      <h1>linux-gateway-manager</h1>
+      <p class="login-subtitle">Вход в систему управления Linux-шлюзом</p>
+
+      <form id="loginForm" class="login-form">
+        <label>
+          <span>Логин</span>
+          <input type="text" id="loginInput" autocomplete="username" required />
+        </label>
+
+        <label>
+          <span>Пароль</span>
+          <input type="password" id="passwordInput" autocomplete="current-password" required />
+        </label>
+
+        <button type="submit">Войти</button>
+      </form>
+
+      <div class="login-hint">
+        <p><strong>Администратор:</strong> admin / admin123</p>
+        <p><strong>Пользователь:</strong> user / user123</p>
+      </div>
+
+      <p id="loginError" class="login-error"></p>
+    </div>
+  </div>
+
+  <script src="/login.js"></script>
+</body>
+</html>
